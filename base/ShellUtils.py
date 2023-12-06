@@ -31,9 +31,19 @@ class ShellUtils:
         print(text, end=end)
         
     def writeTable(table: list[list[str]], colSeparator: str = "\t"):
+
+        # TODO: cells in a column should have the same width
+        # TODO: if the table is too wide, cells should be truncated
+
+        tabWidth = 4
+        colSeparator = colSeparator.replace("\t", " " * tabWidth)
         terminalWidth = os.get_terminal_size().columns
-        
+
         for row in table:
-            for cell in row:
-                ShellUtils.write(cell, colSeparator)
+            rowlength = row.__len__()
+            for (ix,cell) in enumerate(row):
+                if ix == rowlength - 1:
+                    ShellUtils.write(cell, "")
+                else:
+                    ShellUtils.write(cell, colSeparator)
             ShellUtils.write()
