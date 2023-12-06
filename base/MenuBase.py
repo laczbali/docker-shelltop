@@ -62,7 +62,9 @@ class Menu(ABC):
     def _draw(self) -> None:
         ShellUtils.clearScreen()
 
-        ShellUtils.write(self.getHeader())
+        header = self.getHeader()
+        if header != None and header != "":
+            ShellUtils.write(header)
 
         for ix,item in enumerate(self.getItems()):
             ShellUtils.write(

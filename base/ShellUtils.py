@@ -1,4 +1,3 @@
-import os
 import re
 
 class ShellUtils:
@@ -11,9 +10,10 @@ class ShellUtils:
   / / / / __ \/ ___/ //_/ _ \/ ___/   \__ \/ __ \/ _ \/ / / / / / / / / /_/ /
  / /_/ / /_/ / /__/ ,< /  __/ /      ___/ / / / /  __/ / / / / / /_/ / ____/ 
 /_____/\____/\___/_/|_|\___/_/      /____/_/ /_/\___/_/_/ /_/  \____/_/      
+by blaczko
         """
 
-    def clearScreen():        
+    def clearScreen(hardClear: bool = False):
         for _ in range(ShellUtils.linePosition):
             # reset cursor one line
             print("\033[F", end="")
@@ -22,7 +22,10 @@ class ShellUtils:
         
         ShellUtils.linePosition = 0
 
-    def write(text: str = ""):            
+        if not hardClear:
+            ShellUtils.write(ShellUtils.header)
+
+    def write(text: str = ""):
         lineCount = re.split(r'\r\n|\r|\n', text).__len__()
         ShellUtils.linePosition = ShellUtils.linePosition + lineCount
         print(text)

@@ -9,7 +9,7 @@ class MainMenu(Menu):
         Containers().display()
 
     def _exit(self):
-        ShellUtils.clearScreen()
+        ShellUtils.clearScreen(True)
 
     def getHeader(self) -> str:
         return ""
@@ -20,14 +20,14 @@ class MainMenu(Menu):
                 "container",
                 "Check and manage containers",
                 self._container),
-            MenuItem(
-                "image",
-                "Check and manage images",
-                None),
-            MenuItem(
-                "compose",
-                "Up and down compositions",
-                None),
+            # MenuItem(
+            #     "image",
+            #     "Check and manage images",
+            #     None),
+            # MenuItem(
+            #     "compose",
+            #     "Up and down compositions",
+            #     None),
             MenuItem(
                 "exit",
                 "Exit",
