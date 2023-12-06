@@ -1,3 +1,4 @@
+import os
 import re
 
 class ShellUtils:
@@ -24,8 +25,15 @@ class ShellUtils:
         if not hardClear:
             ShellUtils.write(ShellUtils.header)
 
-    def write(text: str = ""):
+    def write(text: str = "", end: str | None = None):
         lineCount = re.split(r'\r\n|\r|\n', text).__len__()
         ShellUtils.linePosition = ShellUtils.linePosition + lineCount
-        print(text)
+        print(text, end=end)
         
+    def writeTable(table: list[list[str]], colSeparator: str = "\t"):
+        terminalWidth = os.get_terminal_size().columns
+        
+        for row in table:
+            for cell in row:
+                ShellUtils.write(cell, colSeparator)
+            ShellUtils.write()
