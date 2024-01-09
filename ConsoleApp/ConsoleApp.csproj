@@ -11,4 +11,8 @@
     <PackageReference Include="Blaczko.NetCurses" Version="1.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DockerWrapper\DockerWrapper.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,3 +1,9 @@
+# ide config
 .vs
+
+# secrets
+.vscode/sudo_pwd.txt
+
+# build outputs
 bin
 obj
