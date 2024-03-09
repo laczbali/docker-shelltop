@@ -5,11 +5,12 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace DockerWrapper;
-public class Executor
+
+public class DockerExecutor
 {
     public static (string Ver, string Build) GetVersion()
     {
-        var cmdRes = RunDockerCommand("--version");
+        var cmdRes = RunCommand("--version");
         return (
             Regex.Match(cmdRes, "\\d+\\.\\d+\\.\\d+").Value,
             Regex.Match(cmdRes, "[\\w\\d]+$").Value);
@@ -17,7 +18,7 @@ public class Executor
 
     public static List<Image> GetImages()
     {
-        var cmdRes = RunDockerCommand("image list --format json");
+        var cmdRes = RunCommand("image list --format json");
         var jsonStrings = cmdRes.Split("\n", StringSplitOptions.TrimEntries & StringSplitOptions.RemoveEmptyEntries);
 
         var images = new List<Image>();
@@ -41,7 +42,7 @@ public class Executor
 
     public static List<Container> GetContainers()
     {
-        var cmdRes = RunDockerCommand("container list --no-trunc --all --format json");
+        var cmdRes = RunCommand("container list --no-trunc --all --format json");
         var jsonStrings = cmdRes.Split("\n", StringSplitOptions.TrimEntries & StringSplitOptions.RemoveEmptyEntries);
 
         var containers = new List<Container>();
@@ -66,7 +67,25 @@ public class Executor
         return containers;
     }
 
-    private static string RunDockerCommand(string command)
+    public static void ComposeUp(string composeFile)
+        => RunCommand($"compose --file {composeFile} up --detach");
+
+    public static void ComposeDown(string composeFile, bool removeImages = true)
+        => RunCommand($"compose --file {composeFile} down" + (removeImages ? " --rmi all" : string.Empty));
+
+    public static void StartContainer(string containerName)
+        => RunCommand($"container start {containerName}");
+
+    public static void StopContainer(string containerName)
+        => RunCommand($"container stop {containerName}");
+
+    public static string GetLogs(string containerName)
+        => RunCommand($"container logs {containerName}");
+
+    public static string ExecInContainer(string containerName, string command)
+        => RunCommand($"container exec {containerName} {command}");
+
+    private static string RunCommand(string command)
     {
         var process = new Process
         {
