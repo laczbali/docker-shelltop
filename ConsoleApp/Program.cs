@@ -1,5 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using DockerWrapper;
+﻿using DockerShelltop.Components.Main;
+using NetCurses;
 
-Console.WriteLine("Ver:" + DockerExecutor.GetVersion().Build);
-Console.WriteLine(DockerExecutor.GetContainers());
+TerminalEnv.Execute<MainMenu>();
